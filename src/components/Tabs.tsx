@@ -1,25 +1,34 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Tabs } from '../components/Tabs';
+import { NavLink } from 'react-router-dom';
 import { Tab } from '../types/Tab';
 
-const tabs: Tab[] = [
-  { id: 'html', title: 'HTML', content: 'HTML is the structure of the web.' },
-  { id: 'css', title: 'CSS', content: 'CSS styles the web.' },
-  { id: 'js', title: 'JavaScript', content: 'JS makes the web interactive.' },
-];
+type Props = {
+  tabs: Tab[];
+  activeTabId?: string;
+};
 
-export const TabsPage: React.FC = () => {
-  const { tabId } = useParams();
-
-  document.title = 'Tabs page';
-
-  const activeTab = tabs.find(tab => tab.id === tabId);
-
+export const Tabs: React.FC<Props> = ({ tabs, activeTabId }) => {
   return (
-    <div className="page">
-      <h1>Tabs page</h1>
-      <Tabs tabs={tabs} activeTabId={activeTab?.id} />
+    <div className="Tabs">
+      <div className="Tabs__nav">
+        {tabs.map(tab => (
+          <NavLink
+            key={tab.id}
+            to={`/tabs/${tab.id}`}
+            className={({ isActive }) =>
+              'Tabs__tab' + (isActive ? ' is-active' : '')
+            }
+          >
+            {tab.title}
+          </NavLink>
+        ))}
+      </div>
+
+      <div className="Tabs__content">
+        {activeTabId
+          ? tabs.find(tab => tab.id === activeTabId)?.content
+          : 'Please select a tab.'}
+      </div>
     </div>
   );
 };
