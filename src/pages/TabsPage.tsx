@@ -16,7 +16,7 @@ export const TabsPage: React.FC = () => {
 
   return (
     <div className="page">
-      <h1>Tabs page</h1>
+      <h1>Tab page</h1>
       <Tabs tabs={tabs} activeTabId={tabId} />
     </div>
   );
