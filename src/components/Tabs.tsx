@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Tab } from '../types/Tab';
 
 type Props = {
@@ -8,26 +8,23 @@ type Props = {
 };
 
 export const Tabs: React.FC<Props> = ({ tabs, activeTabId }) => {
+  const activeTab = tabs.find(tab => tab.id === activeTabId);
+
   return (
     <div className="Tabs">
-      <div className="Tabs__nav">
+      <ul className="Tabs__list">
         {tabs.map(tab => (
-          <NavLink
+          <li
             key={tab.id}
-            to={`/tabs/${tab.id}`}
-            className={({ isActive }) =>
-              'Tabs__tab' + (isActive ? ' is-active' : '')
-            }
+            className={tab.id === activeTabId ? 'is-active' : ''}
           >
-            {tab.title}
-          </NavLink>
+            <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className="Tabs__content">
-        {activeTabId
-          ? tabs.find(tab => tab.id === activeTabId)?.content
-          : 'Please select a tab.'}
+        {activeTab ? activeTab.content : 'Please select a tab.'}
       </div>
     </div>
   );
